@@ -68,10 +68,12 @@ const KakaoMap = ({
 
       const markers = _markers.map((m) => {
         const { lat, lng, image, info } = m;
+        lat = lat ?? 0;
+        lng = lng ?? 0;
+
         const options = {
           position: new kakao.maps.LatLng(lat, lng),
-        };
-
+        };    
         // 마커 이미지 처리 S
         const mi = image ? image : markerImage;
         if (mi) {
@@ -121,7 +123,7 @@ const KakaoMap = ({
       });
     }
     // 마커 출력 E
-  }, [mapRef, center, _center, zoom, marker, markerImage,markers]);
+  }, [mapRef, center, _center, zoom, marker, markerImage, markers]);
 
   return <MapArea ref={mapRef} width={width} height={height} />;
 };
