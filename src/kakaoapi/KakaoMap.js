@@ -15,10 +15,9 @@ const KakaoMap = ({
   marker,
   markerImage,
   currentLocation, // 위치 기반
-  address, //주소 기반
+  address, // 주소
 }) => {
-  const [_center, setCenter] = useState(center);
-  const [mkrs, setMarkers] = useState(marker);
+  const [_center, setCenter] = useState(center ?? {});
   const mapRef = useRef(null);
 
   // 현재 위치 기반 S
@@ -44,12 +43,10 @@ const KakaoMap = ({
       }
     });
   }, [address]);
-
   // 주소로 가운데 배치 E
 
   useEffect(() => {
     const mapEl = mapRef.current;
-
     // 지도 가운데 배치 S
     const position = new kakao.maps.LatLng(
       _center?.lat ?? 37.557756188912954,
@@ -68,12 +65,10 @@ const KakaoMap = ({
 
       const markers = _markers.map((m) => {
         const { lat, lng, image, info } = m;
-        lat = lat ?? 0;
-        lng = lng ?? 0;
-
         const options = {
           position: new kakao.maps.LatLng(lat, lng),
-        };    
+        };
+
         // 마커 이미지 처리 S
         const mi = image ? image : markerImage;
         if (mi) {
@@ -123,7 +118,7 @@ const KakaoMap = ({
       });
     }
     // 마커 출력 E
-  }, [mapRef, center, _center, zoom, marker, markerImage, markers]);
+  }, [mapRef, _center, zoom, marker, markerImage]);
 
   return <MapArea ref={mapRef} width={width} height={height} />;
 };
